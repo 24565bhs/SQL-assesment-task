@@ -19,18 +19,20 @@ def print_all_pokemon():
         #Pokemon does not exist
         print('That is not a valid pokemon.')
         
-
+print('===========================================================================================================================================')
+print('Welcome to the mythical pokemon program.')
+print("Type the name of a pokemon and find out it's type, pokedex number, strengths and weaknesses.")
 while True:
-    try:
         #find out what user wants
-        print('===========================================================================================================================================')
-        print('Welcome to the mythical pokemon program.')
-        print("Type the name of a pokemon and find out it's type, pokedex number, strengths and weaknesses.")
         print('===========================================================================================================================================')
         print('Click 1 to enter a pokemon.')
         print("Click 2 to find good match ups for your pokemon")
         print('Click 3 to end program.')
-        option = int(input('Choose which option you want: '))
+        try:
+            option = int(input('Choose which option you want: '))
+        except ValueError:
+            print("Please enter a valid number, not text.")
+            continue
         if option == 1:
             #Find information on a pokemon
             print('===========================================================================================================================================')
@@ -42,14 +44,16 @@ while True:
             pokemon_in_use = pokemon_in_use.title()
             cursor.execute("SELECT pokemon_name, pokemon_type, pokemon_weakness, pokemon_strength FROM pokemon WHERE pokemon_name = ?;", (pokemon_in_use,))
             results = cursor.fetchone()
-            print(f'You are using {results[0]}.')
-            print(f'{results[0]} is a {results[1]} type.')
-            print(f'Do not match {results[0]} against {results[2]} pokemon.')
-            print(f'Only use {results[0]} against {results[3]} pokemon.')
+            #prints results
+            if results is not None:
+                print(f'You are using {results[0]}.')
+                print(f'{results[0]} is a {results[1]} type.')
+                print(f'Do not match {results[0]} against {results[2]} pokemon.')
+                print(f'Use {results[0]} against {results[3]} pokemon.')
+            else: 
+                print("That pokemon is not valid")
         elif option == 3:
             #ending program
             print('===========================================================================================================================================')
             print('Goodbye')
             break
-    except ValueError:
-        print("Please enter a valid number, not text.")
